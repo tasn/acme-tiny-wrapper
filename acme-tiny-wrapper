@@ -6,6 +6,10 @@ if [ -z "$PREFIX" ]; then
     PREFIX="/etc/acme-tiny"
 fi
 
+if [ -z "$ACME_TINY_BIN" ]; then
+    ACME_TINY_BIN="acme_tiny"
+fi
+
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <acme dir>"
     echo "For example: $0 /srv/http/letsencrypt/.well-known/acme-challenge/"
@@ -29,6 +33,6 @@ do
 
     mkdir -p "$work_dir"
 
-    acme_tiny --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}"
+    ${ACME_TINY_BIN} --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}"
     cat "${CERT}" "${INTERMEDIATE}" > "${FULLCHAIN}"
 done
