@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$PREFIX" ]; then
+    PREFIX="/etc/acme-tiny"
+fi
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <acme dir>"
+    echo "For example: $0 /srv/http/letsencrypt/.well-known/acme-challenge/"
+    exit 1
+fi
+
+ACME_DIR="$1"
+
+ACCOUNT_KEY="${PREFIX}/account.key"
+INTERMEDIATE="${PREFIX}/intermediate.pem"
+
+wget -O - https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem > "${INTERMEDIATE}"
+
+for csr in ${PREFIX}/csr/*.csr
+do
+    name="$(basename "$csr")"
+    name="${name%.csr}"
+    work_dir="${PREFIX}/live/${name}"
+    CERT="${work_dir}/cert.pem"
+    FULLCHAIN="${work_dir}/fullchain.pem"
+
+    mkdir -p "$work_dir"
+
+    acme_tiny --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}"
+    cat "${CERT}" "${INTERMEDIATE}" > "${FULLCHAIN}"
+done
