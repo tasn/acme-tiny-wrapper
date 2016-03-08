@@ -7,7 +7,7 @@ if [ -z "$PREFIX" ]; then
 fi
 
 if [ -z "$ACME_TINY_BIN" ]; then
-    ACME_TINY_BIN="acme_tiny"
+    ACME_TINY_BIN="acme-tiny"
 fi
 
 if [ "$#" -ne 1 ]; then
