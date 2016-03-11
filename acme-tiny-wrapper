@@ -33,6 +33,7 @@ do
 
     mkdir -p "$work_dir"
 
-    ${ACME_TINY_BIN} --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}"
+    ${ACME_TINY_BIN} --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}.tmp"
+    mv -f "${CERT}.tmp" "${CERT}"
     cat "${CERT}" "${INTERMEDIATE}" > "${FULLCHAIN}"
 done
