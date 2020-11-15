@@ -21,7 +21,7 @@ ACME_DIR="$1"
 ACCOUNT_KEY="${PREFIX}/account.key"
 INTERMEDIATE="${PREFIX}/intermediate.pem"
 
-wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > "${INTERMEDIATE}"
+curl https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > "${INTERMEDIATE}"
 
 for csr in ${PREFIX}/csr/*.csr
 do
