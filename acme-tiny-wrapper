@@ -19,9 +19,6 @@ fi
 ACME_DIR="$1"
 
 ACCOUNT_KEY="${PREFIX}/account.key"
-INTERMEDIATE="${PREFIX}/intermediate.pem"
-
-curl -s https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > "${INTERMEDIATE}"
 
 for csr in ${PREFIX}/csr/*.csr
 do
@@ -45,6 +42,5 @@ do
     mkdir -p "$work_dir"
 
     ${ACME_TINY_BIN} --account-key "$ACCOUNT_KEY" --csr "$csr" --acme-dir "$ACME_DIR" > "${CERT}.tmp"
-    mv -f "${CERT}.tmp" "${CERT}"
-    cat "${CERT}" "${INTERMEDIATE}" > "${FULLCHAIN}"
+    mv -f "${CERT}.tmp" "${FULLCHAIN}"
 done
